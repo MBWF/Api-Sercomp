@@ -1,9 +1,10 @@
 const express = require('express')
 const routes = express.Router()
+const adminController = require('./app/controllers/adminController')
 
-routes.get('/hello',(req, res) => {
-        return res.json({ message: "Hello World"});
-})
+
+routes.get('/', adminController.index)
+
 routes.post('/hello',(req, res)=>{
     const { name } = req.body
     const message = `Olá ${name}`
