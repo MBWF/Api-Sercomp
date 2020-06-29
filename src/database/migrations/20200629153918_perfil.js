@@ -4,4 +4,4 @@ exports.up = async knex => knex.schema.createTable('perfil', table => {
      table.text('nome').unique().notNullable()
 })
 
-exports.down = async knex => knex.schema.dropTable('users')
+exports.down = async knex => knex.schema.dropTable('perfil')
