@@ -5,7 +5,7 @@ const app = express()
 app.use(express.json())
 
 app.get('/',(req, res)=>{
-     res.json({Ok:true})
+     res.json({'Okay meus amigos, o server ta pegando':true})
 })
 
 app.listen(3333)
