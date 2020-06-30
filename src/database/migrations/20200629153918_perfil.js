@@ -1,4 +1,3 @@
-
 exports.up = async knex => knex.schema.createTable('perfil', table => {
      table.increments('id').primary()
      table.text('nome').unique().notNullable()
