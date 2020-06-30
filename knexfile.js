@@ -8,7 +8,7 @@ module.exports = {
       host: process.env.DB_HOST,
       user: process.env.DB_USER,
       password: process.env.DB_PASS,
-      atabase: "knexsercomp"
+      database: process.env.DB_NAME
     },
     migrations: {
       tableName: 'knex_migrations',
