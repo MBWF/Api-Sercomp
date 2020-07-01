@@ -7,7 +7,7 @@ class adminController {
 
     const user = await db("usuario").where({ email }).first();
 
-    if (user.id_perfil !== 1)
+    if (user.id_perfil != "13")
       return res
         .status(401)
         .json({ error: "Este usuário não está autorizado" });

@@ -1,38 +1,39 @@
-const bcrypt = require('bcryptjs')
-const db = require('../../database')
+const bcrypt = require("bcryptjs");
+const db = require("../../database");
 
 class userController {
-     async store(req, res) {
-          const { id } = req.headers
-          const { nome, email, senha } = req.body
-          
-          if(id != 1) return res.status(401).json({ error: 'Este usuário não está autorizado'})
+  async store(req, res) {
+    const { id } = req.headers;
+    const { nome, email, senha } = req.body;
 
-          const user = await db('usuario').where({ email }).first()
+    if (id != 1)
+      return res
+        .status(401)
+        .json({ error: "Este usuário não está autorizado" });
 
-          if(user) return res.status(400).json({error: 'O email já existe'})
+    const user = await db("usuario").where({ email }).first();
 
-          const hash = bcrypt.hashSync(senha, 8)
+    if (user) return res.status(400).json({ error: "O email já existe" });
 
-          try {
-               await db('usuario').insert({
-                    name: nome,
-                    email,
-                    senha: hash,
-                    id_perfil: 2
-               })
-               const aluno = await db('usuario').where({ email }).first()
-               delete aluno.senha
-               delete aluno.id_perfil
-               return res.json(aluno)
+    const hash = bcrypt.hashSync(senha, 8);
 
-          } catch (e) {
-               console.log(e)
-               res.status(402).json()
-          }
+    try {
+      await db("usuario").insert({
+        name: nome,
+        email,
+        senha: hash,
+        id_perfil: 14,
+      });
 
-          
-     }
+      const aluno = await db("usuario").where({ email }).first();
+      delete aluno.senha;
+      delete aluno.id_perfil;
+      return res.json(aluno);
+    } catch (e) {
+      console.log(e);
+      res.status(402).json();
+    }
+  }
 }
 
-module.exports = new userController()
+module.exports = new userController();

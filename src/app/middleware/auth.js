@@ -3,7 +3,7 @@ module.exports = function (req, res, next) {
 
   if (!id) return res.status(400).json({ error: "ID não encontrado" });
 
-  if (id != 1) return res.status(401).json({ error: "não autorizado" });
+  if (id != "13") return res.status(401).json({ error: "não autorizado" });
 
   req.idUser = id;
   next();
