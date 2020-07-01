@@ -33,6 +33,10 @@ class palestraController {
       return res.json({ error: "Erro ao tentar cadastrar a palestra" });
     }
   }
+  async show(req, res) {
+    const palestras = await db("palestra");
+    res.json(palestras);
+  }
 }
 
 module.exports = new palestraController();
