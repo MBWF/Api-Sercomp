@@ -1,22 +1,23 @@
-const bcrypt = require('bcryptjs')
-const db = require('../../database')
+const bcrypt = require("bcryptjs");
+const db = require("../../database");
 
-class adminController{
-     async signIn(req, res){
+class adminController {
+  async signIn(req, res) {
+    const { email, senha } = req.body;
 
-          const {email, senha } = req.body
+    const user = await db("usuario").where({ email }).first();
 
-          const user = await db('usuario').where({ email }).first()       
-          
-          if(user.id_perfil !== 1) return res.status(401).json({ error: 'Este usuário não está autorizado'}) 
+    if (user.id_perfil !== 1)
+      return res
+        .status(401)
+        .json({ error: "Este usuário não está autorizado" });
 
-          if(!user) return res.status(400).json({ error: 'Este email não existe'})
-          
-          if(!(bcrypt.compareSync(senha,user.senha))) 
-               return res.status(401).json({ error: 'Senha Invalida'})
+    if (!user) return res.status(400).json({ error: "Este email não existe" });
 
-          return res.status(200).json({ nome: user.name, id: user.id});
-          
-     }
+    if (!bcrypt.compareSync(senha, user.senha))
+      return res.status(401).json({ error: "Senha Invalida" });
+
+    return res.status(200).json({ nome: user.name, id: user.id });
+  }
 }
-module.exports = new adminController() 
+module.exports = new adminController();
