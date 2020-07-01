@@ -1,4 +1,3 @@
-const { onUpdateTrigger } = require('../../../knexfile')
 
 exports.up = async knex => knex.schema.createTable('usuario', table => {
 
@@ -12,7 +11,6 @@ exports.up = async knex => knex.schema.createTable('usuario', table => {
     table.integer('id_perfil')
     .references('perfil.id')
     .notNullable()
-    .onDelete('SET NULL')
 
     table.timestamp('created_at', { precision: 6 }).defaultTo(knex.fn.now(6))
 })
