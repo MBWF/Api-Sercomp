@@ -3,13 +3,7 @@ const db = require("../../database");
 
 class userController {
   async store(req, res) {
-    const { id } = req.headers;
     const { nome, email, senha } = req.body;
-
-    if (id != 1)
-      return res
-        .status(401)
-        .json({ error: "Este usuário não está autorizado" });
 
     const user = await db("usuario").where({ email }).first();
 

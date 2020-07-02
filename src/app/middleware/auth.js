@@ -3,6 +3,7 @@
 const db = require("../../database");
 
 module.exports = async function (req, res, next) {
+  console.log("🕵  Verificando Credencias");
   const { id } = req.headers;
 
   if (!id) return res.status(400).json({ error: "ID não encontrado" });
@@ -15,8 +16,6 @@ module.exports = async function (req, res, next) {
     .where({ nome: "administrador" })
     .select("id")
     .first();
-
-  console.log(Admin, idAdmin);
 
   if (Admin.id_perfil !== idAdmin)
     return res.status(401).json({ error: "Esse Usuario não esta autorizado" });
