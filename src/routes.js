@@ -12,5 +12,7 @@ routes.post("/user", userController.store);
 
 routes.post("/palestra", auth, palestraController.store);
 routes.get("/palestra", palestraController.show);
+routes.put("/palestra/:id", auth, palestraController.update);
+routes.delete("/palestra/:id", auth, palestraController.destroy);
 
 module.exports = routes;

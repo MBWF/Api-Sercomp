@@ -30,12 +30,70 @@ class palestraController {
 
       return res.status(201).json(dados);
     } catch (e) {
-      return res.json({ error: "Erro ao tentar cadastrar a palestra" });
+      return res
+        .status(406)
+        .json({ error: "Erro ao tentar cadastrar a palestra" });
     }
   }
+
   async show(req, res) {
     const palestras = await db("palestra");
     res.json(palestras);
+  }
+
+  async update(req, res) {
+    const { id } = req.params;
+
+    const {
+      titulo,
+      sala,
+      nomepalestrante,
+      descricao,
+      data,
+      horario,
+    } = req.body;
+
+    const palestra = await db("palestra").where({ id }).first();
+
+    if (!palestra)
+      return res
+        .status(404)
+        .json({ error: "Palestra não encontrada, id invalido" });
+
+    try {
+      await db("palestra")
+        .update({
+          titulo,
+          sala,
+          name_palestrante: nomepalestrante,
+          descricao_palestrante: descricao,
+          data,
+          horario,
+        })
+        .where({ id });
+      return res.status(202).send();
+    } catch (e) {
+      return res.status(406).json({ error: "Não foi possivel atualizar" });
+    }
+  }
+
+  async destroy(req, res) {
+    const { id } = req.params;
+
+    const palestra = await db("palestra").where({ id }).first();
+
+    if (!palestra)
+      return res
+        .status(404)
+        .json({ error: "Palestra não encontrada, id invalido" });
+
+    try {
+      await db("palestra").where({ id }).del();
+
+      return res.status(202).send();
+    } catch (e) {
+      return res.status(406).json({ error: "Não foi possivel deletar" });
+    }
   }
 }
 

@@ -1,3 +1,5 @@
+//melhorias
+// o auth deve pesquisar no banco o usuario id e enviar apenas o id do administrador
 module.exports = function (req, res, next) {
   const { id } = req.headers;
 
