@@ -7,12 +7,17 @@ class adminController {
 
     const user = await db("usuario").where({ email }).first();
 
-    if (user.id_perfil != "13")
+    if (!user) return res.status(400).json({ error: "Este email não existe" });
+
+    const { id: idAdmin } = await db("perfil")
+      .where({ nome: "administrador" })
+      .select("id")
+      .first();
+
+    if (user.id_perfil != idAdmin)
       return res
         .status(401)
         .json({ error: "Este usuário não está autorizado" });
-
-    if (!user) return res.status(400).json({ error: "Este email não existe" });
 
     if (!bcrypt.compareSync(senha, user.senha))
       return res.status(401).json({ error: "Senha Invalida" });

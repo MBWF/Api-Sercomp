@@ -1,11 +1,25 @@
 //melhorias
 // o auth deve pesquisar no banco o usuario id e enviar apenas o id do administrador
-module.exports = function (req, res, next) {
+const db = require("../../database");
+
+module.exports = async function (req, res, next) {
   const { id } = req.headers;
 
   if (!id) return res.status(400).json({ error: "ID não encontrado" });
 
-  if (id != "13") return res.status(401).json({ error: "não autorizado" });
+  const Admin = await db("usuario").where({ id }).first();
+
+  if (!Admin) return res.status(401).json({ error: "Esse Usuario não existe" });
+
+  const { id: idAdmin } = await db("perfil")
+    .where({ nome: "administrador" })
+    .select("id")
+    .first();
+
+  console.log(Admin, idAdmin);
+
+  if (Admin.id_perfil !== idAdmin)
+    return res.status(401).json({ error: "Esse Usuario não esta autorizado" });
 
   req.idUser = id;
   next();
