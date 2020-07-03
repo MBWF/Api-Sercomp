@@ -71,6 +71,25 @@ class userController {
       res.status(202).send();
     } catch (error) {}
   }
+  async destroy(req, res) {
+    const { id: idAluno } = req.params;
+
+    const Aluno = await db("usuario").where({ id: idAluno }).first();
+
+    if (!Aluno) return res.status(404).json({ error: "Aluno não encontrado" });
+
+    try {
+      await db("usuario").where({ id: idAluno }).del();
+
+      return res.status(202).send();
+    } catch (error) {
+      return res
+        .status(406)
+        .json({ error: "Não foi possivel deletar o aluno" });
+    }
+
+    res.json({ message: "Vai deletar" });
+  }
 }
 
 module.exports = new userController();

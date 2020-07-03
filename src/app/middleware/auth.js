@@ -6,7 +6,7 @@ module.exports = async function (req, res, next) {
   console.log("🕵  Verificando Credencias");
   const { id } = req.headers;
 
-  if (!id) return res.status(400).json({ error: "ID não encontrado" });
+  if (!id) return res.status(400).json({ error: "Creadencias não encontrado" });
 
   const Admin = await db("usuario").where({ id }).first();
 
