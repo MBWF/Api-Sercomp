@@ -10,6 +10,7 @@ routes.post("/admin", adminController.signIn);
 
 routes.post("/user", auth, userController.store);
 routes.get("/user", auth, userController.show);
+routes.put("/user/:id", auth, userController.update);
 
 routes.post("/palestra", auth, palestraController.store);
 routes.get("/palestra", palestraController.show);
