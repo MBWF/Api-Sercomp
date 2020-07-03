@@ -37,8 +37,14 @@ class palestraController {
   }
 
   async show(req, res) {
-    const palestras = await db("palestra");
-    res.json(palestras);
+    try {
+      const palestras = await db("palestra");
+      return res.json(palestras);
+    } catch (error) {
+      return res
+        .status(406)
+        .json({ error: "Falha ao buscar todas as Palestras" });
+    }
   }
 
   async update(req, res) {

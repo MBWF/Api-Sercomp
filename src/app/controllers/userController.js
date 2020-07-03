@@ -28,6 +28,23 @@ class userController {
       res.status(402).json();
     }
   }
+  async show(req, res) {
+    const { id: idAluno } = await db("perfil")
+      .where({ nome: "aluno" })
+      .select("id")
+      .first();
+
+    try {
+      const users = await db("usuario")
+        .where({ id_perfil: idAluno })
+        .select("id", "email", "name", "created_at");
+      res.json(users);
+    } catch (e) {
+      return res
+        .status(406)
+        .json({ error: "Falha ao buscar todas os Usuarios" });
+    }
+  }
 }
 
 module.exports = new userController();
