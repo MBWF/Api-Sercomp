@@ -21,5 +21,5 @@ module.exports = async function (req, res, next) {
     return res.status(401).json({ error: "Esse Usuario não esta autorizado" });
 
   req.idUser = id;
-  next();
+next();
 };

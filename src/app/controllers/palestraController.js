@@ -14,7 +14,7 @@ class palestraController {
     const palestra = await db("palestra").where({ titulo }).first();
 
     if (palestra)
-      return res.json({ error: "Já existe uma palestra com esse titulo" });
+      return res.status(404).json({ error: "Já existe uma palestra com esse titulo" });
 
     try {
       await db("palestra").insert({
@@ -64,7 +64,7 @@ class palestraController {
     if (!palestra)
       return res
         .status(404)
-        .json({ error: "Palestra não encontrada, id invalido" });
+        .json({ error: "Palestra não encontrada, ID invalido" });
 
     try {
       await db("palestra")
@@ -79,7 +79,7 @@ class palestraController {
         .where({ id });
       return res.status(202).send();
     } catch (e) {
-      return res.status(406).json({ error: "Não foi possivel atualizar" });
+      return res.status(406).json({ error: "Não foi possivel atualizar a palestra" });
     }
   }
 

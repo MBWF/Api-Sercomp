@@ -3,6 +3,7 @@ const routes = express.Router();
 const adminController = require("./app/controllers/adminController");
 const userController = require("./app/controllers/userController");
 const palestraController = require("./app/controllers/palestraController");
+const minicursoController = require("./app/controllers/minicursoController")
 
 const auth = require("./app/middleware/auth");
 
@@ -17,5 +18,10 @@ routes.post("/palestra", auth, palestraController.store);
 routes.get("/palestra", palestraController.show);
 routes.put("/palestra/:id", auth, palestraController.update);
 routes.delete("/palestra/:id", auth, palestraController.destroy);
+
+routes.post("/minicurso", auth, minicursoController.store)
+routes.get("/minicurso", minicursoController.show)
+routes.put("/minicurso/:id", auth, minicursoController.update)
+routes.delete("/minicurso/:id", auth, minicursoController.destroy)
 
 module.exports = routes;
