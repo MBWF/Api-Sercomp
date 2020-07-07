@@ -82,7 +82,6 @@ class minicursoController {
                     qnt_alunos,
                     data,
                     horario
-
                })
                .where({ id })
 
