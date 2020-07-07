@@ -3,7 +3,7 @@ const db = require("../../database");
 
 class userController {
   async store(req, res) {
-    const { nome, email, senha } = req.body;
+    const { nome, email, senha, universidade, curso } = req.body;
 
     const user = await db("usuario").where({ email }).first();
 
@@ -15,11 +15,13 @@ class userController {
       .where({ nome: "aluno" })
       .select("id")
       .first();
-
+      console.log(idAluno)
     try {
       await db("usuario").insert({
-        name: nome,
+        nome,
         email,
+        universidade,
+        curso,
         senha: hash,
         id_perfil: idAluno,
       });
@@ -42,7 +44,7 @@ class userController {
     try {
       const users = await db("usuario")
         .where({ id_perfil: idAluno })
-        .select("id", "email", "name", "created_at");
+        .select("id", "email", "nome", "universidade", "curso","created_at");
       res.json(users);
     } catch (e) {
       return res
@@ -52,7 +54,7 @@ class userController {
   }
   async update(req, res) {
     const { id: idAluno } = req.params;
-    const { nome, email, senha } = req.body;
+    const { nome, email, senha, universidade, curso } = req.body;
 
     const Aluno = await db("usuario").where({ id: idAluno }).first();
 
@@ -62,9 +64,11 @@ class userController {
     try {
       await db("usuario")
         .update({
-          name: nome,
+          nome,
           email,
           senha: hash,
+          universidade,
+          curso
         })
         .where({ id: idAluno });
 
@@ -87,8 +91,6 @@ class userController {
         .status(406)
         .json({ error: "Não foi possivel deletar o aluno" });
     }
-
-    res.json({ message: "Vai deletar" });
   }
 }
 
