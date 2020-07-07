@@ -38,8 +38,6 @@ class minicursoController {
                     .status(406)
                     .json({ error: "Erro ao tentar cadastrar o minicurso" }); 
           }
-
-          return res.json()
      }
 
      async show(req, res) {
