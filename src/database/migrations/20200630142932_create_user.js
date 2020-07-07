@@ -5,6 +5,8 @@ exports.up = async knex => knex.schema.createTable('usuario', table => {
     table.text('email').unique().notNullable()
     table.text('senha').notNullable()
     table.text('name').notNullable()
+    table.enu('universidade',['uepb','outras']).notNullable()
+    table.text('curso').notNullable()
     
 
     //relacionamento N para 1
