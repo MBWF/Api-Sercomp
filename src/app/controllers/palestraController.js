@@ -20,7 +20,7 @@ class palestraController {
       await db("palestra").insert({
         titulo,
         sala,
-        name_palestrante: nomepalestrante,
+        nome_palestrante: nomepalestrante,
         descricao_palestrante: descricao,
         data,
         horario,
@@ -71,7 +71,7 @@ class palestraController {
         .update({
           titulo,
           sala,
-          name_palestrante: nomepalestrante,
+          nome_palestrante: nomepalestrante,
           descricao_palestrante: descricao,
           data,
           horario,

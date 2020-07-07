@@ -4,7 +4,7 @@ exports.up = async knex => knex.schema.createTable('palestra', table => {
      table.increments('id').primary()
      table.text('titulo').unique().notNullable()
      table.text('sala').notNullable()
-     table.text('name_palestrante').notNullable()
+     table.text('nome_palestrante').notNullable()
      table.text('descricao_palestrante').notNullable()
      
      table.text('data').notNullable()
