@@ -24,4 +24,6 @@ routes.get("/minicurso", minicursoController.show)
 routes.put("/minicurso/:id", auth, minicursoController.update)
 routes.delete("/minicurso/:id", auth, minicursoController.destroy)
 
+routes.post("/minicurso/:id/cadastrar", auth, adminController.cadastrar)
+
 module.exports = routes;
