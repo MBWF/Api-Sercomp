@@ -27,7 +27,7 @@ class adminController {
 
   async cadastrar(req, res) {
     const { id } = req.params
-    const { email } = req.body 
+    const { email } = req.body
 
     const minicurso = await db("minicurso").where({ id }).first()
 
@@ -42,18 +42,20 @@ class adminController {
     if (qntMinicursoAluno.length >= 3) 
       return res.status(401).json({ error: "O aluno não pode se cadastrar em mais de 3 minicursos" })
 
-    qntMinicursoAluno.map(async (minicurso) => {
+      qntMinicursoAluno.map(async (minicurso) => {
       const newMinicurso = await db("minicurso").where({ id: minicurso.id_minicurso }).first()
       const currentMinicurso = await db("minicurso").where({ id }).first()
-
+  
         if (newMinicurso.horario === currentMinicurso.horario) {
           return res.status(401).json({ error: "O aluno já tem um minicurso nesse horário" })
         }
-          
+
         if (newMinicurso.id === currentMinicurso.id)
           return res.status(401).json({ error: "O aluno já está nesse minicurso" })
-    })
+        
+      })
 
+    
     const qntAlunoMinicurso = await db("minicurso_aluno").where({ id })
 
     if (qntAlunoMinicurso.length === minicurso.qnt_alunos)
