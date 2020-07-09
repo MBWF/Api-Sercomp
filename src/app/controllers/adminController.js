@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const db = require("../../database");
+const { join } = require("../../database");
 
 class adminController {
   async signIn(req, res) {
@@ -29,39 +30,55 @@ class adminController {
     const { id } = req.params
     const { email } = req.body
 
+    //--------------------------------------------------------------------------------//
+
     const minicurso = await db("minicurso").where({ id }).first()
 
     if (!minicurso) return res.status(400).json({ error: "Minicurso inválido" })
+
+    //--------------------------------------------------------------------------------//
     
     const aluno = await db("usuario").where({ email }).first()
 
     if (!aluno) return res.status(400).json({ error: "Email inválido" })
 
+    //--------------------------------------------------------------------------------//
+
     const qntMinicursoAluno = await db("minicurso_aluno").where({ id_aluno: aluno.id})
     
     if (qntMinicursoAluno.length >= 3) 
       return res.status(401).json({ error: "O aluno não pode se cadastrar em mais de 3 minicursos" })
+    
+    //--------------------------------------------------------------------------------//
+    
+    // Pegando o horario de cada minicurso do aluno
+    const horariosData = await db("minicurso_aluno")
+      .where({ id_aluno: aluno.id})
+      .join("minicurso", "minicurso_aluno.id_minicurso", "minicurso.id")
+      .select("horario","data")
+    
+    // Colocando em um objeto o horario e a data do minicurso atual
+    const HoraDataMinicurso = { horario: minicurso.horario, data: minicurso.data} 
 
-      qntMinicursoAluno.map(async (minicurso) => {
-      const newMinicurso = await db("minicurso").where({ id: minicurso.id_minicurso }).first()
-      const currentMinicurso = await db("minicurso").where({ id }).first()
-  
-        if (newMinicurso.horario === currentMinicurso.horario) {
-          return res.status(401).json({ error: "O aluno já tem um minicurso nesse horário" })
-        }
-
-        if (newMinicurso.id === currentMinicurso.id)
-          return res.status(401).json({ error: "O aluno já está nesse minicurso" })
-        
-      })
-
+    const validacao = await horariosData.filter( HD => HD.horario === HoraDataMinicurso.horario && HD.data === HoraDataMinicurso.data)
+      
+    if( validacao.length > 0){
+      return res
+        .status(401)
+        .json({error: "O aluno ja tem um Mincurso nesse horario e data"})
+    }
+    
+    //--------------------------------------------------------------------------------//
     
     const qntAlunoMinicurso = await db("minicurso_aluno").where({ id })
 
     if (qntAlunoMinicurso.length === minicurso.qnt_alunos)
       return res.status(401).json({ error: "O minicurso já está cheio" })
 
+    //--------------------------------------------------------------------------------//
+
     try {
+
       await db("minicurso_aluno").insert({ id_aluno: aluno.id, id_minicurso: minicurso.id})
       return res.status(201).send()
 

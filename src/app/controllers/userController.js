@@ -15,7 +15,6 @@ class userController {
       .where({ nome: "aluno" })
       .select("id")
       .first();
-      console.log(idAluno)
     try {
       await db("usuario").insert({
         nome,
@@ -31,7 +30,6 @@ class userController {
       delete aluno.id_perfil;
       return res.json(aluno);
     } catch (e) {
-      console.log(e);
       res.status(402).json();
     }
   }
