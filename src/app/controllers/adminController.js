@@ -1,6 +1,5 @@
 const bcrypt = require("bcryptjs");
 const db = require("../../database");
-const { join } = require("../../database");
 
 class adminController {
   async signIn(req, res) {
@@ -60,8 +59,10 @@ class adminController {
     // Colocando em um objeto o horario e a data do minicurso atual
     const HoraDataMinicurso = { horario: minicurso.horario, data: minicurso.data} 
 
+    // Filtrando se o aluno tem um mincurso no mesmo horario do minicurso que ele quer se cadastrar
     const validacao = await horariosData.filter( HD => HD.horario === HoraDataMinicurso.horario && HD.data === HoraDataMinicurso.data)
-      
+    
+    // A filtragem nos retorna um array se o array não estiver vazio o aluno tem o mincurso no mesmo horario e data do minurso atual
     if( validacao.length > 0){
       return res
         .status(401)
