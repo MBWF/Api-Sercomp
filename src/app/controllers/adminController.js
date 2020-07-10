@@ -89,5 +89,7 @@ class adminController {
         .json("Não foi possível cadastrar o aluno nesse minicurso")
     }
   }
+  
+
 }
 module.exports = new adminController();

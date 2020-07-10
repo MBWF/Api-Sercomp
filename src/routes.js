@@ -4,6 +4,7 @@ const adminController = require("./app/controllers/adminController");
 const userController = require("./app/controllers/userController");
 const palestraController = require("./app/controllers/palestraController");
 const minicursoController = require("./app/controllers/minicursoController")
+const alunoController = require("./app/controllers/alunoController") 
 
 const auth = require("./app/middleware/auth");
 
@@ -25,5 +26,9 @@ routes.put("/minicurso/:id", auth, minicursoController.update)
 routes.delete("/minicurso/:id", auth, minicursoController.destroy)
 
 routes.post("/minicurso/:id/cadastrar", auth, adminController.cadastrar)
+
+routes.post("/aluno", alunoController.singin)
+routes.get("/aluno/:id/minicurso", alunoController.showMinicurso)
+routes.get("/aluno/palestra", alunoController.showPalestras)
 
 module.exports = routes;
