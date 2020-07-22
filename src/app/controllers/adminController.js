@@ -71,9 +71,9 @@ class adminController {
     
     //--------------------------------------------------------------------------------//
     
-    const qntAlunoMinicurso = await db("minicurso_aluno").where({ id })
+    const qntAlunoMinicurso = await db("minicurso_aluno").where({ id_minicurso: id })
 
-    if (qntAlunoMinicurso.length === minicurso.qnt_alunos)
+    if (qntAlunoMinicurso.length == minicurso.qnt_alunos)
       return res.status(401).json({ error: "O minicurso já está cheio" })
 
     //--------------------------------------------------------------------------------//
