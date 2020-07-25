@@ -89,7 +89,7 @@
 
 ### After completing the installation of the dependencies, we perform the migrations:
 
-&nbsp;&nbsp;&nbsp;&nbsp; `npx knex migrate:latesle`
+&nbsp;&nbsp;&nbsp;&nbsp; `npx knex migrate:latest`
 
 ### And the seeds:
 
